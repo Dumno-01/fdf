@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:58:31 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/06 10:32:33 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/06 16:32:53 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, char *src, size_t size);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
-char	*ft_strchr(char *s, char sc);
+char	*ft_strchr(char *s, int sc);
 char	*ft_strrchr(char *s, int sc);
 int		ft_strncmp(const char *s1, const char *s2, size_t length);
 void	*ft_memchr(const void *s, int found, size_t size);
@@ -72,4 +72,6 @@ int		ft_lstsize(t_list *lst);
 void	*ft_calloc(size_t n, size_t size);
 void	ft_free_split(void *splitted_element);
 char	*get_next_line(int fd);
+char	*slice_file(char *file);
+char	*ft_get_line(char *file);
 #endif
