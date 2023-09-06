@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:57:13 by mgama             #+#    #+#             */
-/*   Updated: 2023/09/06 16:45:11 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/06 17:15:06 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ char	*ft_read_file(int fd, char *file)
 
 char	*get_next_line(int fd)
 {
-	static char	*file;
+	static char	*file = NULL;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+		return (free(file), file = NULL, NULL);
 	file = ft_read_file(fd, file);
 	if (!file)
 	{
@@ -51,6 +51,5 @@ char	*get_next_line(int fd)
 	}
 	line = ft_get_line(file);
 	file = slice_file(file);
-	printf("gnl line %s\n", line);
 	return (line);
 }

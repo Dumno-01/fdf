@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 06:38:23 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/06 14:25:29 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/06 17:23:42 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,37 +28,31 @@ void    isometric(float *x, float *y, int z)
 
 void    bresenham(float x, float y, float x1, float y1, fdf *data)
 {
-    float x_step;
-    float y_step;
-    int max;
-    int z;
-    int z1;
+    float   x_step;
+    float   y_step;
+    int     max;
+    int     z;
+    int     z1;
+    int     fac = 5;
 
-    z = data->z[(int)y][(int)x];
-    z1 = data->z[(int)y1][(int)x1];
-    
+    z = data->z[(int)y][(int)x] * fac;
+    z1 = data->z[(int)y1][(int)x1] * fac;
     
     x *= data->zoom;
     y *= data->zoom;
     x1 *= data->zoom;
     y1 *= data->zoom;
-
-
-
     
     data->color = (z || z1) ? 0xe80c0c : 0xffffff;
 
-
     isometric(&x, &y, z);
     isometric(&x1, &y1, z1);
-
 
     x += data->shift_x;
     y += data->shift_y;
     x1 += data->shift_x;
     y1 += data->shift_y;
-
-
+    
     x_step = x1 - x;
     y_step = y1 - y;
     max = MAX1(MOD(x_step), MOD(y_step));
@@ -71,7 +65,6 @@ void    bresenham(float x, float y, float x1, float y1, fdf *data)
         x += x_step;
         y += y_step;
     }
-
 }
 
 void    print(fdf *data)
