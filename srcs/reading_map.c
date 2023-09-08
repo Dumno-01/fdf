@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 05:14:41 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 12:55:58 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/08 17:27:52 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,21 @@ void    fill_z(int *z_line, char *line)
     free(nums);
 }
 
-void    read_map(char *file_name, fdf *data)
+void    read_map(char *file_name, t_data *data)
 {
     int     fd;
     char     *line;
     int i;
     
     line = NULL;
-    data->heigth = get_heigth(file_name);
-    data->width = get_width(file_name);
-    i = 0;
+    i = -1;
     data->z = malloc(sizeof(int*) * (data->heigth + 1));
-    while (i <= data->heigth)
-        data->z[i++] = malloc(sizeof(int) * (data->width + 1));
+    data->z[data->heigth] = NULL;
+    while (i < data->heigth)
+        data->z[++i] = malloc(sizeof(int) * (data->width + 1));
     fd = open(file_name, O_RDONLY);
     if (fd < 0)
-        return (write(1, "Error fd\n",), (void)0);
+        return (write(1, "Error fd\n", 9), (void)0);
     i = 0;
     get_next_line(-1);
     line = get_next_line(fd);
@@ -90,5 +89,4 @@ void    read_map(char *file_name, fdf *data)
         line = get_next_line(fd);
     }
     close(fd);
-    data->z[i] = NULL;
 }

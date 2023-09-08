@@ -22,7 +22,7 @@ OBJS_DIR	=	./objs/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 
 CC			=	cc
-CC_FLAG		=	#-Wall -Wextra -Werror -g3 -O3 
+CC_FLAG		=	-Wall -Wextra -Werror -g3 -O3
 
 RM			=	rm -rf
 

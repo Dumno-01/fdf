@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:32:42 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 11:31:05 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/08 17:06:45 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ float   mod(float i)
     return (i < 0) ? -i : i;
 }
 
-void    setting_fdf(float *x, float *y, float *x1, float *y1, fdf *data)
+void    setting_fdf(float *x, float *y, float *x1, float *y1, t_data *data)
 {
     *x *= (float)data->zoom;
     *y *= (float)data->zoom;
@@ -26,7 +26,7 @@ void    setting_fdf(float *x, float *y, float *x1, float *y1, fdf *data)
     *y1 *= (float)data->zoom;
 }
 
-void    shifting_fdf(float *x, float *y, float *x1, float *y1, fdf *data)
+void    shifting_fdf(float *x, float *y, float *x1, float *y1, t_data *data)
 {
     *x += (float)data->shift_x;
     *y += (float)data->shift_y;
@@ -34,7 +34,18 @@ void    shifting_fdf(float *x, float *y, float *x1, float *y1, fdf *data)
     *y1 += (float)data->shift_y;
 }
 
-void    step_set(float *x, float *y, float *x1, float *y1, fdf *data)
+void    ft_pixel_put(t_data *data, int x, int y, int color)
+{
+    int *dst;
+
+    if (x >= 0 && x < 1000 && y > 0 && y < 1000)
+    {
+        dst = (int *)data->img.addr;
+        dst[y * 1000 + x] = color;
+    }
+}
+
+void    step_set(float *x, float *y, float *x1, float *y1, t_data *data)
 {
     float x_step;
     float y_step;
@@ -48,7 +59,8 @@ void    step_set(float *x, float *y, float *x1, float *y1, fdf *data)
 
     while ((int)(*x - *x1) || (int)(*y - *y1))
     {
-        mlx_pixel_put(data->mlx_ptr, data->win_ptr, *x, *y, data->color);
+        ft_pixel_put(data, *x, *y, data->color);
+        //mlx_pixel_put(data->mlx_ptr, data->win_ptr, *x, *y, data->color);
         *x += x_step;
         *y += y_step;
     }

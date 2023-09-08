@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 05:15:01 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 11:30:11 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/08 17:05:06 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,38 @@
 #include "../libft/libft.h"
 #include "../minilibx-linux/mlx.h"
 
-typedef struct
+typedef struct  s_img
 {
-    int width;
-    int heigth;
-    int **z;
-    int zoom;
-    int color;
-    int shift_x;
-    int shift_y;
+    void    *img_ptr;
+    char    *addr;
+    int     bpp;
+    int     len;
+    int     end;
+}   t_img;
 
+typedef struct  s_data
+{
+    int     width;
+    int     heigth;
+    int     **z;
+    int     zoom;
+    int     color;
+    int     shift_x;
+    int     shift_y;
     void    *mlx_ptr;
     void    *win_ptr;
-}           fdf;
+    t_img   img;
+    t_img   bg;
+}           t_data;
 
 #endif
 
-void    read_map(char *file_name, fdf *data);
-void    bresenham(float x, float y, float x1, float y1, fdf *data);
-void    print(fdf *data);
-void    shifting_fdf(float *x, float *y, float *x1, float *y1, fdf *data);
-void    setting_fdf(float *x, float *y, float *x1, float *y1, fdf *data);
-void    step_set(float *x, float *y, float *x1, float *y1, fdf *data);
+void    read_map(char *file_name, t_data *data);
+void    bresenham(float x, float y, float x1, float y1, t_data *data);
+void    print(t_data *data);
+void    shifting_fdf(float *x, float *y, float *x1, float *y1, t_data *data);
+void    setting_fdf(float *x, float *y, float *x1, float *y1, t_data *data);
+void    step_set(float *x, float *y, float *x1, float *y1, t_data *data);
+int     close_window(t_data *data);
+int     get_heigth(char *file_name);
+int     get_width(char *file_name);
