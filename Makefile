@@ -15,7 +15,8 @@ MLX_A		=	$(MLX_DIR)libmlx.a
 SRCS_DIR	=	./srcs/
 SRCS		=	main.c\
 				print.c\
-				reading_map.c
+				reading_map.c\
+				bresham_utils.c
 
 OBJS_DIR	=	./objs/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)

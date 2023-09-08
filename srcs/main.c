@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 05:13:54 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/06 17:20:39 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/08 12:01:58 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 int     deal_key(int key, fdf *data)
 {
-    printf("%d\n", key);
     if(key == 65362)
         data->shift_y -= 10;
     if(key == 65364)
@@ -40,26 +39,31 @@ int main(int argc, char **argv)
     
     fdf *data;
 
-    data = malloc(sizeof(fdf));
-    read_map(argv[1], data);
-
-    int j = 0;
-    int i = 0;
-    while(j != data->heigth)
+    if (argc == 2)
     {
-        i = 0;
-        while(i != data->width)
-        {
-            printf("%d", data->z[j][i]);
-            i++;
-        }
-        j++; 
-    }    
-    data->mlx_ptr = mlx_init();
-    data->win_ptr = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF");
-    data->zoom = 20;
+		data = malloc(sizeof(fdf));
+		read_map(argv[1], data);
 
-    print(data);
-    mlx_key_hook(data->win_ptr, deal_key, data);
-    mlx_loop(data->mlx_ptr);
+		int j = 0;
+		int i = 0;
+		while(j != data->heigth)
+     	{
+			i = 0;
+			while(i != data->width)
+        	{
+				printf("%d", data->z[j][i]);
+			i++;
+			}
+			j++; 
+		}    
+		data->mlx_ptr = mlx_init();
+		data->win_ptr = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF");
+		data->zoom = 20;
+
+		print(data);
+		mlx_key_hook(data->win_ptr, deal_key, data);
+		mlx_loop(data->mlx_ptr);
+    }
+	else
+	write(1, "Select a single map file (.fdf)\n", 32);
 }

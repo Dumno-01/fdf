@@ -6,19 +6,13 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 06:38:23 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/06 17:23:42 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/08 11:46:14 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <math.h>
 
-#define MAX1(a, b) (a > b ? a : b)
-#define MOD(a) ((a < 0) ? -a : a)
-float   mod(float i)
-{
-    return (i < 0) ? -i : i;
-}
 
 void    isometric(float *x, float *y, int z)
 {
@@ -33,38 +27,18 @@ void    bresenham(float x, float y, float x1, float y1, fdf *data)
     int     max;
     int     z;
     int     z1;
-    int     fac = 5;
 
-    z = data->z[(int)y][(int)x] * fac;
-    z1 = data->z[(int)y1][(int)x1] * fac;
+    z = data->z[(int)y][(int)x] * 2;
+    z1 = data->z[(int)y1][(int)x1] * 2;
     
-    x *= data->zoom;
-    y *= data->zoom;
-    x1 *= data->zoom;
-    y1 *= data->zoom;
-    
+    setting_fdf(&x, &y, &x1, &y1, data);
+
     data->color = (z || z1) ? 0xe80c0c : 0xffffff;
 
     isometric(&x, &y, z);
     isometric(&x1, &y1, z1);
-
-    x += data->shift_x;
-    y += data->shift_y;
-    x1 += data->shift_x;
-    y1 += data->shift_y;
-    
-    x_step = x1 - x;
-    y_step = y1 - y;
-    max = MAX1(MOD(x_step), MOD(y_step));
-    x_step /= max;
-    y_step /= max;
-
-    while ((int)(x - x1) || (int)(y - y1))
-    {
-        mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
-        x += x_step;
-        y += y_step;
-    }
+    shifting_fdf(&x, &y, &x1, &y1, data);
+    step_set(&x, &y, &x1, &y1, data);
 }
 
 void    print(fdf *data)
