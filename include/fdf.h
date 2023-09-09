@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 05:15:01 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 17:05:06 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/09 13:40:58 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ typedef struct  s_img
     int     end;
 }   t_img;
 
+typedef struct s_pos
+{
+    float x;
+    float y;
+}   t_pos;
+
 typedef struct  s_data
 {
     int     width;
@@ -34,6 +40,8 @@ typedef struct  s_data
     int     color;
     int     shift_x;
     int     shift_y;
+    float   x;
+    float   y;
     void    *mlx_ptr;
     void    *win_ptr;
     t_img   img;
@@ -42,7 +50,7 @@ typedef struct  s_data
 
 #endif
 
-void    read_map(char *file_name, t_data *data);
+int    read_map(char *file_name, t_data *data);
 void    bresenham(float x, float y, float x1, float y1, t_data *data);
 void    print(t_data *data);
 void    shifting_fdf(float *x, float *y, float *x1, float *y1, t_data *data);
@@ -51,3 +59,5 @@ void    step_set(float *x, float *y, float *x1, float *y1, t_data *data);
 int     close_window(t_data *data);
 int     get_heigth(char *file_name);
 int     get_width(char *file_name);
+float	max1(float a, float b);
+float   mod(float i);

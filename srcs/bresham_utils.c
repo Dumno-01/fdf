@@ -6,17 +6,11 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:32:42 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 17:06:45 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/09 13:42:53 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#define MAX1(a, b) (a > b ? a : b)
-#define MOD(a) ((a < 0) ? -a : a)
-float   mod(float i)
-{
-    return (i < 0) ? -i : i;
-}
 
 void    setting_fdf(float *x, float *y, float *x1, float *y1, t_data *data)
 {
@@ -36,13 +30,13 @@ void    shifting_fdf(float *x, float *y, float *x1, float *y1, t_data *data)
 
 void    ft_pixel_put(t_data *data, int x, int y, int color)
 {
-    int *dst;
+	int *dst;
 
-    if (x >= 0 && x < 1000 && y > 0 && y < 1000)
-    {
-        dst = (int *)data->img.addr;
-        dst[y * 1000 + x] = color;
-    }
+	if (x >= 0 && x < 1000 && y > 0 && y < 1000)
+	{
+		dst = (int *)data->img.addr;
+		dst[y * 1000 + x] = color;
+	}
 }
 
 void    step_set(float *x, float *y, float *x1, float *y1, t_data *data)
@@ -53,14 +47,13 @@ void    step_set(float *x, float *y, float *x1, float *y1, t_data *data)
     
     x_step = *x1 - *x;
     y_step = *y1 - *y;
-    max = MAX1(MOD(x_step), MOD(y_step));
+    max = max1(mod(x_step), mod(y_step));
     x_step /= max;
     y_step /= max;
 
     while ((int)(*x - *x1) || (int)(*y - *y1))
     {
         ft_pixel_put(data, *x, *y, data->color);
-        //mlx_pixel_put(data->mlx_ptr, data->win_ptr, *x, *y, data->color);
         *x += x_step;
         *y += y_step;
     }

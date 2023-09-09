@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 06:38:23 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 17:22:40 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/09 13:46:33 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void    bresenham(float x, float y, float x1, float y1, t_data *data)
     
     setting_fdf(&x, &y, &x1, &y1, data);
 
-    data->color = (z || z1) ? 0xe80c0c : 0xffffff;
+    if(z || z1)
+        data->color = 0xe80c0c;
+    else
+        data->color = 0xffffff;
 
     isometric(&x, &y, z);
     isometric(&x1, &y1, z1);
@@ -66,23 +69,22 @@ void    draw_bg(t_img *img, int color)
 
 void    print(t_data *data)
 {
-    int x;
-    int y;
+    t_pos pos;
 
-    y = 0;
+    pos.y = 0;
     draw_bg(&data->img, 0xFF0A0A0A);
-    while (y < data->heigth)
+    while (pos.y < data->heigth)
     {
-        x = 0;
-        while (x < data->width)
+        pos.x = 0;
+        while (pos.x < data->width)
         {
-            if(x < data->width - 1)
-                bresenham(x, y, x + 1, y, data);
-            if(y < data->heigth - 1)
-                bresenham(x, y, x, y + 1, data);
-            x++;
+            if(pos.x < data->width - 1)
+                bresenham(pos.x, pos.y, pos.x + 1, pos.y, data);
+            if(pos.y < data->heigth - 1)
+                bresenham(pos.x, pos.y, pos.x, pos.y + 1, data);
+            pos.x++;
         }
-        y++;
+        pos.y++;
     }
     mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, \
         data->bg.img_ptr, 0, 0);

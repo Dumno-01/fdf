@@ -6,37 +6,37 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 05:13:54 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/08 17:26:45 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/09 13:03:26 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
-int     deal_key(int key, t_data *data)
+int		deal_key(int key, t_data *data)
 {
 	if (key == 65307)
-        close_window(data);
-    if(key == 65362)
-        data->shift_y -= 10;
-    if(key == 65364)
-        data->shift_y += 10;
-    if(key == 65361)
-        data->shift_x -= 10;
-    if(key == 65363)
-        data->shift_x += 10;
-    if(key == 65451)
-        data->zoom += 10;
-    if(key == 65453)
-        data->zoom -= 10;
-    mlx_clear_window(data->mlx_ptr, data->win_ptr);
-    print(data);
-    return(0);
+		close_window(data);
+	if (key == 65362)
+		data->shift_y -= 10;
+	if (key == 65364)
+		data->shift_y += 10;
+	if (key == 65361)
+		data->shift_x -= 10;
+	if (key == 65363)
+		data->shift_x += 10;
+	if (key == 65451)
+		data->zoom += 10;
+	if (key == 65453)
+		data->zoom -= 10;
+	mlx_clear_window(data->mlx_ptr, data->win_ptr);
+	print(data);
+	return(0);
 }
+
 void	data_set(char *file_name, t_data *data)
 {
 	data->heigth = get_heigth(file_name);
-    data->width = get_width(file_name);
+	data->width = get_width(file_name);
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		close_window(data);
@@ -58,7 +58,7 @@ void	data_set(char *file_name, t_data *data)
 
 int    close_window(t_data *data)
 {
-    int    y;
+	int    y;
 
 	if (data->img.img_ptr)
 		mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
@@ -68,18 +68,18 @@ int    close_window(t_data *data)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	if (data->mlx_ptr)
 	{
-    	mlx_destroy_display(data->mlx_ptr);
-    	free(data->mlx_ptr);
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
 	}
-    y = 0;
-    while (data->z[y])
-        free(data->z[y++]);
-    free(data->z);
-    free(data);
-    exit(EXIT_SUCCESS);
-    return (0);
+	y = 0;
+	while (data->z[y])
+		free(data->z[y++]);
+	free(data->z);
+	free(data);
+	exit(EXIT_SUCCESS);
+	return (0);
 }
-int check_ext(char *file_name)
+int	check_ext(char *file_name)
 {
 	int i;
 	
@@ -94,27 +94,28 @@ int check_ext(char *file_name)
 	return (0);	
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_data	*data;
+	t_data	*data;
 	int		j;
 	int		i;
 	
 	j = 0;
 	i = 0;
-    if (argc == 2 && check_ext(argv[1]) == 1)
-    {
+	if (argc == 2 && check_ext(argv[1]) == 1)
+	{
 		data = malloc(sizeof(t_data));
 		ft_bzero(data, sizeof(t_data));
 		if (!data)
-            exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		data_set(argv[1], data);
-		read_map(argv[1], data);
+		if(read_map(argv[1], data) == 0)
+			return (free(data), write(2, "Map error\n", 10));
 		print(data);
-        mlx_hook(data->win_ptr, 2, 1L << 0, deal_key, data);
-        mlx_hook(data->win_ptr, 17, 0L, close_window, data);
-        mlx_loop(data->mlx_ptr);
-    }
+		mlx_hook(data->win_ptr, 2, 1L << 0, deal_key, data);
+		mlx_hook(data->win_ptr, 17, 0L, close_window, data);
+		mlx_loop(data->mlx_ptr);
+	}
 	else
-	write(1, "Select a single map file (.fdf)\n", 32);
+	write(2, "Select a single map file (.fdf)\n", 32);
 }

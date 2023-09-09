@@ -16,7 +16,8 @@ SRCS_DIR	=	./srcs/
 SRCS		=	main.c\
 				print.c\
 				reading_map.c\
-				bresham_utils.c
+				bresham_utils.c\
+				checking_utils.c
 
 OBJS_DIR	=	./objs/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
