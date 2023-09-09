@@ -6,52 +6,40 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 05:14:41 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/09 11:08:29 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/09 16:23:13 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int     get_heigth(char *file_name)
+int	get_heigth(char *file_name, t_data *data)
 {
 	char	*line;
 	int		fd;
-	int		heigth;
 
 	line = NULL;
 	fd = open(file_name, O_RDONLY, 0);
-	heigth = 0;
-	while((line = get_next_line(fd)))
+	if (fd < 0)
+		return (0);
+	data->heigth = 0;
+	line = get_next_line(fd);
+	data->width = count_word(line, ' ');
+	while ((line))
 	{
-		heigth++;
+		data->heigth++;
 		free(line);
+		line = get_next_line(fd);
 	}
-	close(fd);
-	return(heigth);
-}
-
-int     get_width(char *file_name)
-{
-	int		width;
-	int		fd;
-	char	*line;
-
-	width = 0;
-	line = NULL;
-	fd = open(file_name, O_RDONLY, 0);
-	line = get_next_line(fd);    
-	close(fd);
-	width = count_word(line, ' ');
 	free(line);
-
-	return (width);
+	close(fd);
+	return (1);
 }
 
-void    fill_z(int *z_line, char *line)
+void	fill_z(int *z_line, char *line)
 {
-	char **nums;
-	int i;
-	
+	char	**nums;
+	int		i;
+
 	nums = ft_split(line, ' ');
 	i = 0;
 	while (nums[i])
@@ -63,15 +51,15 @@ void    fill_z(int *z_line, char *line)
 	free(nums);
 }
 
-int    read_map(char *file_name, t_data *data)
+int	read_map(char *file_name, t_data *data)
 {
-	int     fd;
-	char     *line;
-	int i;
-	
+	int		fd;
+	char	*line;
+	int		i;
+
 	line = NULL;
 	i = -1;
-	data->z = malloc(sizeof(int*) * (data->heigth + 1));
+	data->z = malloc(sizeof(int *) * (data->heigth + 1));
 	data->z[data->heigth] = NULL;
 	while (i < data->heigth)
 		data->z[++i] = malloc(sizeof(int) * (data->width + 1));

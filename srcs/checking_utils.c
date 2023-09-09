@@ -6,7 +6,7 @@
 /*   By: ffreze <ffreze@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 11:41:09 by ffreze            #+#    #+#             */
-/*   Updated: 2023/09/09 11:41:28 by ffreze           ###   ########.fr       */
+/*   Updated: 2023/09/09 13:56:52 by ffreze           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ float	max1(float a, float b)
 	if (a > b)
 		return (a);
 	else
-		return(b);
+		return (b);
 }
 
-float   mod(float i)
+float	mod(float i)
 {
 	if (i >= 0)
-		return(i);
+		return (i);
 	else
-		return(-i);
+		return (-i);
 }
